@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y clang cmake ninja-build
+
+      - name: Configure
+        run: cmake -G Ninja -DCMAKE_CXX_COMPILER=clang++ -B build
+
+      - name: Build
+        run: cmake --build build
